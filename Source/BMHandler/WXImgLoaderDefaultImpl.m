@@ -48,18 +48,13 @@
         }
         return nil;
     }
-
+ 
     if ([url hasPrefix:@"//"]) {
         url = [@"https:" stringByAppendingString:url];
     }
-
-
+    
     NSURL *imgUrl = [NSURL URLWithString:url];
-
-    NSLog(@"url=====%@",url);
-        
-    NSLog(@"imgUrl=====%@",imgUrl);
-
+    
     if (!imgUrl) {
         WXLogError(@"image url error: %@",url);
         if (completedBlock) {
@@ -74,41 +69,27 @@
         if (BM_InterceptorOn()) {
             // 从jsbundle读取图片
             UIImage *img = nil;
-            NSString *imgPath = [NSString stringWithFormat:@"%@/%@%@",K_DOCUMENT_IMG_PATH,imgUrl.host,imgUrl.path];
-            
-            if([@"assets" isEqualToString : imgUrl.host]){
-                 imgPath = [NSString stringWithFormat:@"%@/%@%@",K_JS_PAGES_PATH,imgUrl.host,imgUrl.path];
-            }
-            
-            NSLog(@"K_DOCUMENT_IMG_PATH=====%@",K_DOCUMENT_IMG_PATH);
-            NSLog(@"imghost=====%@",imgUrl.host);
-            NSLog(@"imgfilename=====%@",imgUrl.path);
-            NSLog(@"imgallpath=====%@",imgPath);
-            
-
-
+            NSString *imgPath = [NSString stringWithFormat:@"%@/%@%@",K_JS_PAGES_PATH,imgUrl.host,imgUrl.path];
             NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
             if ([[NSData sd_contentTypeForImageData:imgData] isEqualToString:@"image/gif"]) {
                 img = [UIImage sd_animatedGIFWithData:imgData];
             } else {
                 img = [UIImage imageWithContentsOfFile:imgPath];
             }
-
+            
             NSError *error = nil;
-
+            
             if (!img) {
                 error = [NSError errorWithDomain:NSURLErrorDomain code:-1100 userInfo:@{NSLocalizedDescriptionKey:@"获取jsbundle中图片失败"}];
             }
-
+            
             if (completedBlock) {
                 completedBlock(img,error,YES);
             }
-
+            
             return nil;
         } else {
             url = [NSString stringWithFormat:@"%@/dist/%@%@",TK_PlatformInfo().url.jsServer,imgUrl.host,imgUrl.path];
-            NSLog(@"no hot refresh imgallpath=====%@",url);
-
         }
     }
     else if (![url hasPrefix:@"http"] && ![url hasPrefix:@"data:image"])
@@ -131,17 +112,17 @@
         }
         return nil;
     }
-
+    
     [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:url]
                                                     options:SDWebImageRetryFailed | SDWebImageAllowInvalidSSLCertificates
                                                    progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-
+                                                       
                                                    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                                        if (completedBlock) {
                                                            completedBlock(image,error,finished);
                                                        }
                                                    }];
-
+    
     return nil;
 }
 

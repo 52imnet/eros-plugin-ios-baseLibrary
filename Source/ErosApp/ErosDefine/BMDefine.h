@@ -40,8 +40,6 @@
 /* 存放当前js版本号的路径 */
 #define K_JS_VERSION_PATH [K_JS_BUNDLE_PATH stringByAppendingPathComponent:@"bundle.config"]
 
-/* 存放DOCUMENT IMG 路径 */
-#define K_DOCUMENT_IMG_PATH [K_DOCUMENT_PATH stringByAppendingPathComponent:@"img"]
 
 /**----------------------------- 字体大小key ------------------------------------*/
 #define K_CHANGE_FONT_SIZE_NOTIFICATION     @"change_font_size"
