@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.source       = { :git => "https://github.com/bmfe/eros-plugin-ios-baseLibrary.git", :tag => s.version.to_s }
   s.requires_arc = true
-  
+
   s.dependency 'YYText', '1.0.7'
   s.dependency 'Masonry', '1.1.0'
   s.dependency 'YYModel', '1.0.4'
@@ -85,7 +85,7 @@ Pod::Spec.new do |s|
     ss.requires_arc  = true
     ss.dependency "Realm",'3.1.0'
     ss.dependency "BindingX",'1.0.3'
-    ss.dependency 'TZImagePickerController', '3.1.2'
+    ss.dependency 'TZImagePickerController', '3.2.1'
   end
 
   #Weex BMManager

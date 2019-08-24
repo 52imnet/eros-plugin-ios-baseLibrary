@@ -48,7 +48,7 @@
 
 + (void)pick:(BMUploadImageModel *)model weexInstance:(WXSDKInstance *)weexInstance callback:(WXModuleCallback)callback
 {
-    [[BMImageManager shareInstance].uploadImageUtils pick:model weexInstance:weexInstance callback:callback];
+    [[BMImageManager shareInstance].uploadImageUtils  pick:model weexInstance:weexInstance callback:callback];
 }
 
 + (void)uploadImageWithInfo:(BMUploadImageModel *)model weexInstance:(WXSDKInstance *)weexInstance callback:(WXModuleCallback)callback

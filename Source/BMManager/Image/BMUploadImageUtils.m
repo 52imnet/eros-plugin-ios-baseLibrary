@@ -112,10 +112,13 @@
 
     /* 设置不允许选择视频/gif/原图 */
     imagePickerVc.allowPickingVideo = NO;
-    imagePickerVc.allowPickingGif = NO;
+    imagePickerVc.allowPickingGif = YES;
     imagePickerVc.allowPickingOriginalPhoto = NO;
     imagePickerVc.allowTakePicture = NO;
     imagePickerVc.allowCrop = NO;
+    imagePickerVc.allowPickingMultipleVideo = YES;
+//    imagePickerVc.allowPickingImage = YES;
+
     /* 判断是否是上传头像如果是则 允许裁剪图片 */
     if (self.imageInfo.allowCrop && self.imageInfo.maxCount == 1) {
         imagePickerVc.allowCrop = YES;
@@ -126,7 +129,35 @@
     [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
 
         if (weakSelf.isLocal) {
-            [weakSelf cacheImages:photos];
+
+            BOOL isGIF = [[assets[0] valueForKey:@"filename"] hasSuffix:@"GIF"];
+
+            if (isGIF) {
+
+                [[TZImageManager manager] getOriginalPhotoDataWithAsset:assets[0] completion:^(NSData *data, NSDictionary *info, BOOL isDegraded) {
+
+                    NSLog(@"gif file check pass,filename==%@", [assets[0] valueForKey:@"filename"]);
+
+                    NSString *path=[self getImagePath];
+
+                    if ([data writeToFile:path atomically:YES]) {
+
+                        NSLog(@"gif file save success................");
+
+                    }else{
+                        NSLog(@"gif file save error................");
+                        NSLog(@"gif file save error................");
+                        NSLog(@"gif file save error................");
+                        NSLog(@"gif file save error................");
+                        NSLog(@"gif file save error................");
+
+                    }
+                }];
+            }else{
+                // jpeg || png
+                [weakSelf cacheImages:photos];
+            }
+
         } else {
             [weakSelf uploadImage:photos];
         }
@@ -216,6 +247,9 @@
         @strongify(self);
         NSMutableArray *imagesPath = [[NSMutableArray alloc] init];
         for (UIImage *img in images) {
+
+            // todo check gif , if the gif is too big , please do not save it
+            // and then return home;
             NSString *path = [self saveImage2Disk:img];
             [imagesPath addObject:path];
         }
@@ -223,6 +257,11 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (self.callback) {
                 NSDictionary *backData = [NSDictionary configCallbackDataWithResCode:BMResCodeSuccess msg:nil data:imagesPath];
+
+
+
+
+                NSLog(@"backData===%@",backData);
                 self.callback(backData);
             }
         });
@@ -298,6 +337,10 @@
 //图片保存本地
 - (NSString *)saveImage2Disk:(UIImage *)tempImage
 {
+
+    NSLog(@"====================================saveImage2Disk===================================");
+    NSLog(@"====================================saveImage2Disk===================================");
+    NSLog(@"====================================saveImage2Disk===================================");
     NSData *imageData=UIImageJPEGRepresentation(tempImage, 1);
     NSString *path=[self getImagePath];
     if ([imageData writeToFile:path atomically:YES]) {
