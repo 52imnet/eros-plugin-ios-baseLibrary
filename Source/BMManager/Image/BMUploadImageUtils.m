@@ -117,13 +117,12 @@
     imagePickerVc.allowTakePicture = NO;
     imagePickerVc.allowCrop = NO;
     imagePickerVc.allowPickingMultipleVideo = YES;
-//    imagePickerVc.allowPickingImage = YES;
 
     /* 判断是否是上传头像如果是则 允许裁剪图片 */
-    if (self.imageInfo.allowCrop && self.imageInfo.maxCount == 1) {
-        imagePickerVc.allowCrop = YES;
-        imagePickerVc.cropRect = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height - [UIScreen mainScreen].bounds.size.width) / 2.0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width);
-    }
+//    if (self.imageInfo.allowCrop && self.imageInfo.maxCount == 1) {
+//        imagePickerVc.allowCrop = YES;
+//        imagePickerVc.cropRect = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height - [UIScreen mainScreen].bounds.size.width) / 2.0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width);
+//    }
 
     __weak typeof(self)weakSelf = self;
     [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
@@ -143,6 +142,15 @@
                     if ([data writeToFile:path atomically:YES]) {
 
                         NSLog(@"gif file save success................");
+
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (self.callback) {
+                                NSDictionary *backData = [NSDictionary configCallbackDataWithResCode:BMResCodeSuccess msg:nil data:path];
+                                NSLog(@"gif file save success2 backData===%@",backData);
+                                self.callback(backData);
+                            }
+                        });
+
 
                     }else{
                         NSLog(@"gif file save error................");
