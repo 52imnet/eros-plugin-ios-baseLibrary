@@ -104,9 +104,9 @@
 
     /* 设置图片自动裁剪尺寸 */
 
-    if (self.imageInfo.imageWidth > 0) {
-        imagePickerVc.photoWidth = self.imageInfo.imageWidth;
-    }
+//    if (self.imageInfo.imageWidth > 0) {
+//        imagePickerVc.photoWidth = self.imageInfo.imageWidth;
+//    }
 
     /* 设置不允许选择视频/gif/原图 */
     imagePickerVc.allowPickingVideo = NO;
@@ -404,7 +404,7 @@
     NSLog(@"====================================saveImage2Disk===================================");
     NSLog(@"====================================saveImage2Disk===================================");
     NSLog(@"====================================saveImage2Disk===================================");
-    NSData *imageData = UIImageJPEGRepresentation(tempImage, 1);
+    NSData *imageData = UIImageJPEGRepresentation(tempImage, 0.8);
     NSString *path = [self getImagePath];
     if ([imageData writeToFile:path atomically:YES]) {
         return path;
