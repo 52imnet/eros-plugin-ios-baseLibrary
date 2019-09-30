@@ -122,6 +122,10 @@
 //        imagePickerVc.cropRect = CGRectMake(0, ([UIScreen mainScreen].bounds.size.height - [UIScreen mainScreen].bounds.size.width) / 2.0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width);
 //    }
 
+    // 清理Lib/tmp/cropper.jpeg
+    // 操作转移到getImagePath中
+
+
     __weak typeof(self) weakSelf = self;
     [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
 
@@ -146,7 +150,9 @@
 
                     NSLog(@"gif file length %d", [data length]);
 
+                    // 保存gif 文件
                     NSString *path = [self getImagePath];
+
 
                     if ([data writeToFile:path atomically:YES]) {
 
@@ -390,8 +396,12 @@
         [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
     }
 
+
     NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", @"cropper"]];
     //NSString *filePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",[self getCurrentTimeString]]];
+
+    BOOL isSuccess = [fm removeItemAtPath:filePath error:nil];
+    NSLog(@"filepath|%@, %@", filePath, isSuccess ? @"删除成功" : @"删除失败");
 
     NSLog(@"filePath====%@", filePath);
 
