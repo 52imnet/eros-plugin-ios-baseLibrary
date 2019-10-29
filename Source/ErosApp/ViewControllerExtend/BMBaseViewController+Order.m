@@ -36,7 +36,7 @@
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
         } else {
             if (@available(iOS 13.0, *)) {
-                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDarkContent animated:NO];
+                //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDarkContent animated:NO];
             } else {
                 [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
             }
@@ -47,7 +47,7 @@
     /* 设置状态栏 字体颜色 */
     if ([self.routerModel.statusBarStyle isEqualToString:@"Default"]) {
         if (@available(iOS 13.0, *)) {
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDarkContent animated:NO];
+            //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDarkContent animated:NO];
         }else {
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
         }

@@ -111,7 +111,7 @@ WX_EXPORT_METHOD(@selector(scanImage::))
     if ([info isKindOfClass:[NSDictionary class]]) {
         NSArray * images = [(NSDictionary*)info objectForKey:imagesKey];
         NSNumber * index = [(NSDictionary*)info objectForKey:indexKey];
-    
+
         NSMutableArray * imagsArray = [[NSMutableArray alloc] initWithCapacity:0];
 
         if ([images isKindOfClass:[NSArray class]]) {
@@ -121,28 +121,28 @@ WX_EXPORT_METHOD(@selector(scanImage::))
                     [imagsArray addObject:url];
                 }
             }
-            
+
             if (nil != self.images) {
                 [self.images removeAllObjects];
                 self.images = nil;
             }
             self.images = [[NSMutableArray alloc] initWithArray:imagsArray];
-            
+
             if (nil != _photoBrowser) {
                 _photoBrowser = nil;
             }
-            
+
             _photoBrowser = [PBViewController new];
             _photoBrowser.pb_dataSource = self;
             _photoBrowser.pb_delegate = self;
             _photoBrowser.pb_startPage = [index integerValue];
-            
+
             [weexInstance.viewController presentViewController:_photoBrowser animated:YES completion:^{
                 if (callback) {
                     callback([NSDictionary dictionary]);
                 }
             }];
-            
+
         }
     }
 }
@@ -154,16 +154,16 @@ WX_EXPORT_METHOD(@selector(scanImage::))
 }
 
 - (void)viewController:(PBViewController *)viewController presentImageView:(UIImageView *)imageView forPageAtIndex:(NSInteger)index progressHandler:(void (^)(NSInteger, NSInteger))progressHandler {
-    
+
     NSString *url = self.images[index]?:@"";
-    
+
     NSURL *imgUrl = [NSURL URLWithString:url];
-    
+
     if (!imgUrl) {
         WXLogError(@"image url error: %@",url);
         return;
     }
-    
+
     if ([imgUrl.scheme isEqualToString:BM_LOCAL])
     {
         // 拦截器
@@ -171,19 +171,19 @@ WX_EXPORT_METHOD(@selector(scanImage::))
             // 从jsbundle读取图片
             NSString *imgPath = [NSString stringWithFormat:@"%@/%@%@",K_JS_PAGES_PATH,imgUrl.host,imgUrl.path];
             UIImage *img = [UIImage imageWithContentsOfFile:imgPath];
-            
+
             if (!img) {
                 WXLogError(@"预览jsbundle中图片失败:%@",url);
             }
-            
+
             imageView.image = img;
-            
+
             return;
         } else {
             url = [NSString stringWithFormat:@"%@/dist/%@%@",TK_PlatformInfo().url.jsServer,imgUrl.host,imgUrl.path];
         }
     }
-    
+
     if (![url hasPrefix:@"http"])
     {
         NSFileManager *fm = [NSFileManager defaultManager];
@@ -195,14 +195,17 @@ WX_EXPORT_METHOD(@selector(scanImage::))
         }
         return;
     }
-    
-    [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageRetryFailed | SDWebImageAllowInvalidSSLCertificates progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-        if (progressHandler)
-        {
-            progressHandler(receivedSize,expectedSize);
+
+    [imageView sd_setImageWithURL:[NSURL URLWithString:url]
+        placeholderImage:nil
+        options:0
+        progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            if (progressHandler)
+            {
+                progressHandler(receivedSize,expectedSize);
         }
-    } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+
     }];
 }
 
