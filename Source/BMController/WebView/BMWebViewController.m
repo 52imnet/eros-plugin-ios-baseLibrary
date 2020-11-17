@@ -73,6 +73,8 @@
     self.webView.delegate = self;
 
     self.view.backgroundColor = self.routerInfo.backgroundColor? [UIColor colorWithHexString:self.routerInfo.backgroundColor]: K_BACKGROUND_COLOR;
+    //self.view.navigationController.interactivePopGestureRecognizer.enabled=NO;
+    self.fd_interactivePopDisabled = YES;
 
     self.urlStr = self.routerInfo.url;
     [self reloadURL];
