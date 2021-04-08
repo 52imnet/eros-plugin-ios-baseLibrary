@@ -56,9 +56,9 @@
 
     NSURL *imgUrl = [NSURL URLWithString:url];
 
-    NSLog(@"url=====%@",url);
+    //NSLog(@"url=====%@",url);
         
-    NSLog(@"imgUrl=====%@",imgUrl);
+    //NSLog(@"imgUrl=====%@",imgUrl);
 
     if (!imgUrl) {
         WXLogError(@"image url error: %@",url);
@@ -80,9 +80,9 @@
                  imgPath = [NSString stringWithFormat:@"%@/%@%@",K_JS_PAGES_PATH,imgUrl.host,imgUrl.path];
             }
             
-            NSLog(@"K_DOCUMENT_IMG_PATH=====%@",K_DOCUMENT_IMG_PATH);
-            NSLog(@"imghost=====%@",imgUrl.host);
-            NSLog(@"imgfilename=====%@",imgUrl.path);
+            //NSLog(@"K_DOCUMENT_IMG_PATH=====%@",K_DOCUMENT_IMG_PATH);
+            //NSLog(@"imghost=====%@",imgUrl.host);
+            //NSLog(@"imgfilename=====%@",imgUrl.path);
             NSLog(@"imgallpath=====%@",imgPath);
             
 

@@ -85,7 +85,7 @@ Pod::Spec.new do |s|
     ss.requires_arc  = true
     ss.dependency "Realm",'3.1.0'
     ss.dependency "BindingX",'1.0.3'
-    ss.dependency 'TZImagePickerController', '3.2.1'
+    ss.dependency 'TZImagePickerController', '3.6.0'
   end
 
   #Weex BMManager
