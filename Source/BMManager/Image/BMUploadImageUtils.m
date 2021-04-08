@@ -195,6 +195,8 @@
         }
     }];
 
+    imagePickerVc.modalPresentationStyle = UIModalPresentationFullScreen;
+
     [self.weexInstance.viewController presentViewController:imagePickerVc animated:YES completion:nil];
 
 }
