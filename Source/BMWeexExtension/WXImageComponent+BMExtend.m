@@ -366,5 +366,14 @@ static NSString * defaultKey = @"default";
     }
 }
 
+//fix ios14 image can not show
 
+- (void)didFinishDrawingLayer:(BOOL)success {
+    if ([self isViewLoaded]) {
+        UIImage *image = ((UIImageView *)self.view).image;
+        if (image) {
+            _layer.contents = (id)(image.CGImage);
+        }
+    }
+}
 @end
